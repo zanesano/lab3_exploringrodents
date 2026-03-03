@@ -1,0 +1,156 @@
+---
+title: "PA 3: Using Data Visualization to Find the Penguins"
+format: html
+editor: source
+embed-resources: true
+execute: 
+  echo: true
+  error: true
+---
+
+**NAMES:** Kiwi Cervantes, Emmanuel Laureano, Zane Sano
+
+
+```{r}
+library(tidyverse)
+library(palmerpenguins)
+```
+
+Today you will be exploring different types of visualizations to uncover which species of penguins reside on different islands.
+
+***This task is complex. It requires many different types of abilities. Everyone will be good at some of these abilities but nobody will be good at all of them. In order to solve this puzzle, you will need to use the skills of each member of your group.***
+
+Some advice: If you aren't sure how to make a specific plot or how to customize
+a look over the class text for this week and make use of the **ggplot2**
+cheatsheet. 
+
+# Getting Set-up
+
+<!-- The partner whose family name starts first alphabetically starts as the  -->
+<!-- Computer (typing and listening to instructions from the Coder! -->
+
+Name of the person starting as the Computer (typing): 
+
+# Exploring the Penguins Data
+
+In this section you will explore the `penguins` dataset by creating multiple
+types of plots. As you are creating you plots, please don't forget to (1) give
+your plots reader friendly axes labels, and. (2) follow good code formatting!
+
+## Step 0: Setup Chunk
+In the empty code chunk at the top of the document, add the correct packages and label the code chunk as `setup`.  
+
+- `tidyverse` or `ggplot2`  
+- `palmerpenguins` 
+
+## Step 1: Barchart
+
+Use `ggplot2` to plot the frequency of each penguin `species`. 
+
+```{r}
+#| label: barchart
+ggplot(data = penguins) + 
+  geom_bar(aes(x = species))
+```
+
+
+<!-- Change roles (Computer becomes Coder)! -->
+
+## Step 2: Histogram or Density Curve
+
+Use `ggplot2` to plot the distribution of bill lengths for the penguins included in the dataset.
+
+```{r}
+#| label: histogram-or-density
+ggplot(data= penguins) +
+  geom_histogram(aes(x=bill_length_mm))
+```
+
+<!-- Change roles (Computer becomes Coder)! -->
+
+## Step 3: Scatterplot
+
+Use `ggplot2` to plot the relationship between the length of a penguin's bill (`bill_length_mm`) and the depth of their bill (`bill_depth_mm`).
+
+```{r}
+#| label: scatterplot
+ggplot(data= penguinss, mapping=aes(x=bill_length_mm, y=bill_depth_mm)) +
+  geom_point()
+
+```
+
+## Step 4: Add a Trend Line
+
+Add a **linear** trend line to the scatterplot you made above! 
+```{r}
+#| label: scatterplot + trend
+ggplot(data = penguins, mapping=aes(x=bill_length_mm, y=bill_depth_mm)) +
+  geom_point() + 
+  geom_smooth(method = lm)
+
+```
+
+<!-- Change roles (Computer becomes Coder)! -->
+
+## Step 5: Adding A Categorical Variable
+
+Building off of the plot you made in Step 4, add an aesthetic to differentiate
+the species of the penguins in the scatterplot by color.
+
+```{r}
+#| label: scatterplot-with-one-categorical-variable
+ggplot(data = penguins, mapping =aes(x=bill_length_mm, y=bill_depth_mm , color = species)) +
+  geom_point() + 
+  geom_smooth(method = lm)
+```
+
+<!-- Change roles (Computer becomes Coder)! -->
+
+## Step 6: Adding Another Categorical Variable
+
+Building off of the plot you made in Step 5, add the location of the penguins
+( `island`) to your visualization. There may be more than one method to address
+this, however, one method will more easily allow you to address the questions
+below.
+
+```{r}
+#| label: scatterplot-with-two-categorical-variables
+ggplot(data = penguins, mapping =aes(x=bill_length_mm, y=bill_depth_mm , color = species)) +
+  geom_point() + 
+  geom_smooth(method = lm)+
+  facet_wrap (~island)
+```
+
+
+<!-- Change roles (Computer becomes Coder)! -->
+
+# Canvas Quiz
+
+Working together as a team, use the plots you both created to address the
+following questions below, then use your answers to individually respond to the questions in the Canvas quiz:
+
+1.  Which species of penguins is represented the **least** in the `penguins` data set?
+
+>chinstrap
+
+2.  What is the most frequent bill length seen in these data? (Approximate to the nearest 5mm)  
+
+>45
+
+3.  Which species of penguins are found on Biscoe Island?  
+
+>adelie and gentoo
+
+4.  Which species of penguins are found on Dream Island?  
+
+>adelie and chinstrap
+
+5.  Which species of penguins are found on Torgersen Island?  
+
+>adelie
+
+
+
+# Submission
+
+Render the Quarto document to HTML. Submit the zipped file and the html separately for the quiz (so you will need to export this twice).  

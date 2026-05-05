@@ -1,11 +1,13 @@
 ---
 title: "Lab 3: Exploring Rodents with `ggplot2`"
-author: "Your name here!"
-format: gfm
+author: "Zane Sano"
+format: 
+  gfm:
+    code-tools: true
 editor: source
 execute: 
   eval: true
-  echo: false
+  echo: true
 ---
 
 # Part 1: Setup
@@ -161,6 +163,20 @@ It takes a larger cognitive load to read text that is rotated. It is common prac
 ```{r}
 #| label: boxplot
 
+surveys |>
+  ggplot(aes(x = species, y = weight)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(color = "brown", alpha = 0.25, width = 0.2) +
+  labs(
+    x = "Rodent Species",
+    y = NULL,
+    title = "Distribution of Rodent Weight by Species",
+    subtitle = "Weight (grams)"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
 
 ```
 
@@ -203,7 +219,18 @@ Some people (and journals) prefer for boxplots to be stacked with a specific ori
 
 ```{r}
 #| label: rotated-boxplot
-
+surveys |>
+  ggplot(aes(x = species, y = weight)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(color = "brown", alpha = 0.25, width = 0.2) +
+  labs(
+    x = NULL,
+    y = "Weight (grams)",
+    title = "Distribution of Rodent Weight by Species",
+    subtitle = "Rodent Species"
+  ) +
+  theme_minimal() +
+  coord_flip()
 ```
 
 Notice how vertically stacked boxplots make the species labels more readable than horizontally stacked boxplots (even when the axis labels are rotated). This is good practice!

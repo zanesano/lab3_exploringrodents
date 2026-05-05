@@ -1,5 +1,5 @@
 # Lab 3: Exploring Rodents with `ggplot2`
-Your name here!
+Zane Sano
 
 # Part 1: Setup
 
@@ -62,6 +62,10 @@ In the code chunk below, load in the packages necessary for your
 analysis. You should only need the `tidyverse` package for this
 analysis.
 
+``` r
+library(tidyverse)
+```
+
     ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
     ✔ dplyr     1.1.4     ✔ readr     2.1.6
     ✔ forcats   1.0.1     ✔ stringr   1.6.0
@@ -110,6 +114,12 @@ We are going to use the `read_csv()` function to load in the
 `surveys.csv` dataset (stored in the data folder). For simplicity, name
 the data `surveys`. We will learn more about this function next week.
 
+``` r
+surveys <- read_csv("data/surveys.csv", show_col_types = FALSE)
+
+glimpse(surveys)
+```
+
     Rows: 30,463
     Columns: 15
     $ record_id       <dbl> 63, 64, 65, 66, 67, 68, 69, 71, 74, 75, 78, 79, 81, 82…
@@ -145,12 +155,32 @@ customization of plots.
 To build a `ggplot()`, we will use the following basic template that can
 be used for different types of plots:
 
+``` r
+ggplot(data = <DATA>,
+       mapping = aes(<VARIABLE MAPPINGS>)) +
+  <GEOM_FUNCTION>()
+```
+
 Let’s get started!
 
 ## Scatterplot
 
 **3. First, let’s create a scatterplot of the relationship between
 `weight` (on the $x$-axis) and `hindfoot_length` (on the $y$-axis).**
+
+``` r
+surveys |>
+  ggplot(aes(x = weight, y = hindfoot_length)) +
+  geom_point(alpha = 0.25) +
+  facet_wrap(~ species) +
+ labs(
+    x = "Weight",
+    y = NULL,
+    title = "Weight vs Hindfoot Length by Species",
+    subtitle = "Hindfoot Length"
+  ) +
+  theme_minimal()
+```
 
 ![](lab-3-student_files/figure-commonmark/scatterplot-1.png)
 
@@ -188,6 +218,25 @@ into the subtitle.**
 <!-- If you have not committed and pushed your code, do that now! -->
 
 ## Boxplots
+
+``` r
+surveys |>
+  ggplot(aes(x = species, y = weight)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(color = "brown", alpha = 0.25, width = 0.2) +
+  labs(
+    x = "Rodent Species",
+    y = NULL,
+    title = "Distribution of Rodent Weight by Species",
+    subtitle = "Weight (grams)"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+```
+
+![](lab-3-student_files/figure-commonmark/boxplot-1.png)
 
 **9. Create side-by-side boxplots to visualize the distribution of
 weight within each species.**
@@ -254,6 +303,23 @@ the orientation of your boxplots. If you created horizontally stacked
 boxplots, your boxplots should now be stacked vertically. If you had
 vertically stacked boxplots, you should now stack your boxplots
 horizontally!**
+
+``` r
+surveys |>
+  ggplot(aes(x = species, y = weight)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(color = "brown", alpha = 0.25, width = 0.2) +
+  labs(
+    x = NULL,
+    y = "Weight (grams)",
+    title = "Distribution of Rodent Weight by Species",
+    subtitle = "Rodent Species"
+  ) +
+  theme_minimal() +
+  coord_flip()
+```
+
+![](lab-3-student_files/figure-commonmark/rotated-boxplot-1.png)
 
 Notice how vertically stacked boxplots make the species labels more
 readable than horizontally stacked boxplots (even when the axis labels
